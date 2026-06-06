@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Models;
+
+use Database\Factories\RoleFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
+#[Fillable(['slug', 'name'])]
+class Role extends Model
+{
+    /** @use HasFactory<RoleFactory> */
+    use HasFactory;
+
+    /**
+     * Users who hold this role.
+     *
+     * Many-to-many via role_user pivot.
+     * A role (e.g., "student") belongs to many users.
+     */
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'role_user')
+            ->withTimestamps();
+    }
+}
