@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['skill_domain_id', 'slug', 'name', 'description', 'display_order'])]
+#[Fillable(['skill_domain_id', 'parent_id', 'slug', 'name', 'description', 'display_order'])]
 class SubSkill extends Model
 {
     /** @use HasFactory<SubSkillFactory> */
@@ -48,6 +48,29 @@ class SubSkill extends Model
         return $this->belongsToMany(Question::class, 'question_tags')
             ->withPivot('weight')
             ->withTimestamps();
+    }
+
+    /**
+     * The parent sub-skill in the hierarchy (null for top-level sub-skills).
+     *
+     * Inverse belongs-to: self-referencing relationship.
+     * Example: "Tense Accuracy" → parent is null (top-level).
+     * "Present Tenses" → parent is "Tense Accuracy".
+     */
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(SubSkill::class, 'parent_id');
+    }
+
+    /**
+     * Child sub-skills nested under this node.
+     *
+     * One-to-many: self-referencing relationship.
+     * Example: "Tense Accuracy" has children: Present Tenses, Past Tenses, etc.
+     */
+    public function children(): HasMany
+    {
+        return $this->hasMany(SubSkill::class, 'parent_id');
     }
 
     /**
