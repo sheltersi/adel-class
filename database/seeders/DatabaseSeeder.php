@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             // Foundation
+            RoleSeeder::class,
             SkillDomainSeeder::class,
             SubSkillSeeder::class,
 
