@@ -142,7 +142,7 @@
 
             /* === Gradient Text === */
             .text-gradient {
-                background: linear-gradient(135deg, #2563EB 0%, #7C3AED 50%, #2563EB 100%);
+                background: linear-gradient(135deg, #2563EB 0%, #0891B2 50%, #2563EB 100%);
                 background-size: 200% auto;
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
@@ -150,7 +150,7 @@
                 animation: gradient-shift 5s ease infinite;
             }
             .text-gradient-2 {
-                background: linear-gradient(135deg, #06B6D4 0%, #3B82F6 50%, #8B5CF6 100%);
+                background: linear-gradient(135deg, #0E7490 0%, #2563EB 50%, #0891B2 100%);
                 background-size: 200% auto;
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
@@ -184,13 +184,13 @@
             .hero-bg {
                 background: 
                     radial-gradient(ellipse at 20% 50%, rgba(37, 99, 235, 0.08) 0%, transparent 50%),
-                    radial-gradient(ellipse at 80% 20%, rgba(124, 58, 237, 0.06) 0%, transparent 50%),
+                    radial-gradient(ellipse at 80% 20%, rgba(8, 145, 178, 0.06) 0%, transparent 50%),
                     radial-gradient(ellipse at 50% 80%, rgba(6, 182, 212, 0.05) 0%, transparent 50%);
             }
             .dark .hero-bg {
                 background: 
                     radial-gradient(ellipse at 20% 50%, rgba(37, 99, 235, 0.12) 0%, transparent 50%),
-                    radial-gradient(ellipse at 80% 20%, rgba(124, 58, 237, 0.08) 0%, transparent 50%),
+                    radial-gradient(ellipse at 80% 20%, rgba(8, 145, 178, 0.08) 0%, transparent 50%),
                     radial-gradient(ellipse at 50% 80%, rgba(6, 182, 212, 0.06) 0%, transparent 50%);
             }
 
@@ -226,7 +226,7 @@
                 inset: -1px;
                 border-radius: inherit;
                 padding: 1px;
-                background: linear-gradient(135deg, rgba(37, 99, 235, 0.3), rgba(124, 58, 237, 0.3), rgba(6, 182, 212, 0.3));
+                background: linear-gradient(135deg, rgba(37, 99, 235, 0.3), rgba(8, 145, 178, 0.3), rgba(6, 182, 212, 0.3));
                 -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
                 mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
                 -webkit-mask-composite: xor;
@@ -327,7 +327,7 @@
             <div class="max-w-7xl mx-auto px-6 lg:px-8">
                 <div class="flex items-center justify-between h-16">
                     <a href="{{ route('home') }}" class="flex items-center gap-2.5 group">
-                        <div class="flex items-center justify-center size-9 rounded-xl bg-gradient-to-br from-blue-500 to-violet-500 shadow-lg shadow-blue-500/20 group-hover:shadow-blue-500/40 transition-all duration-300">
+                        <div class="flex items-center justify-center size-9 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 shadow-lg shadow-blue-500/20 group-hover:shadow-cyan-500/30 transition-all duration-300">
                             <svg class="size-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
                                 <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
@@ -380,186 +380,187 @@
             {{-- Floating Decorative Elements --}}
             <div class="absolute inset-0 overflow-hidden pointer-events-none">
                 <div class="absolute top-[20%] left-[10%] w-72 h-72 bg-blue-500/10 rounded-full blur-3xl float-1"></div>
-                <div class="absolute top-[40%] right-[15%] w-96 h-96 bg-violet-500/10 rounded-full blur-3xl float-2"></div>
+                <div class="absolute top-[40%] right-[15%] w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl float-2"></div>
                 <div class="absolute bottom-[20%] left-[30%] w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl float-3"></div>
                 
                 {{-- Floating Orbs --}}
                 <div class="absolute top-[30%] left-[20%] size-3 bg-blue-400/30 rounded-full float-1"></div>
-                <div class="absolute top-[25%] right-[25%] size-4 bg-violet-400/20 rounded-full float-2"></div>
-                <div class="absolute top-[60%] left-[15%] size-2 bg-cyan-400/30 rounded-full float-3"></div>
+                <div class="absolute top-[25%] right-[25%] size-4 bg-cyan-400/20 rounded-full float-2"></div>
+                <div class="absolute top-[60%] left-[15%] size-2 bg-teal-400/30 rounded-full float-3"></div>
                 <div class="absolute bottom-[35%] right-[20%] size-3 bg-blue-300/20 rounded-full float-1"></div>
-                <div class="absolute top-[50%] left-[40%] size-2 bg-violet-300/20 rounded-full float-2"></div>
+                <div class="absolute top-[50%] left-[40%] size-2 bg-cyan-300/20 rounded-full float-2"></div>
             </div>
 
-            <div class="relative max-w-7xl mx-auto px-6 lg:px-8 py-20 lg:py-32">
-                <div class="max-w-4xl mx-auto text-center">
-                    {{-- Badge --}}
-                    <div class="anim-fade-up inline-flex items-center gap-2 px-4 py-2 rounded-full border border-blue-200/50 dark:border-blue-800/50 bg-blue-50/50 dark:bg-blue-900/20 backdrop-blur-sm mb-8">
-                        <span class="relative flex size-2">
-                            <span class="absolute inline-flex h-full w-full rounded-full bg-blue-500 animate-ping opacity-60"></span>
-                            <span class="relative inline-flex rounded-full size-2 bg-blue-500"></span>
-                        </span>
-                        <span class="text-sm font-medium text-blue-600 dark:text-blue-400">Now enrolling for 2026</span>
-                        <span class="px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-800 text-xs font-semibold text-blue-700 dark:text-blue-300">Free</span>
-                    </div>
+            <div class="relative max-w-7xl mx-auto px-6 lg:px-8 py-20 lg:py-28">
+                <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                    
+                    {{-- Left: Text Content --}}
+                    <div class="max-w-2xl">
+                        {{-- Badge --}}
+                        <div class="anim-fade-up inline-flex items-center gap-2 px-4 py-2 rounded-full border border-blue-200/50 dark:border-blue-800/50 bg-blue-50/50 dark:bg-blue-900/20 backdrop-blur-sm mb-8">
+                            <span class="relative flex size-2">
+                                <span class="absolute inline-flex h-full w-full rounded-full bg-blue-500 animate-ping opacity-60"></span>
+                                <span class="relative inline-flex rounded-full size-2 bg-blue-500"></span>
+                            </span>
+                            <span class="text-sm font-medium text-blue-600 dark:text-blue-400">Now enrolling for 2026</span>
+                            <span class="px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-800 text-xs font-semibold text-blue-700 dark:text-blue-300">Free</span>
+                        </div>
 
-                    {{-- Heading --}}
-                    <h1 class="anim-fade-up delay-100 text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] text-slate-900 dark:text-white mb-8">
-                        Master English
-                        <br>
-                        with <span class="text-gradient">Confidence</span>
-                    </h1>
+                        {{-- Heading --}}
+                        <h1 class="anim-fade-up delay-100 text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] text-slate-900 dark:text-white mb-6">
+                            Master English
+                            <br>
+                            with <span class="text-gradient">Confidence</span>
+                        </h1>
 
-                    {{-- Subtitle --}}
-                    <p class="anim-fade-up delay-200 text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto mb-12 leading-relaxed">
-                        Personalized tutoring powered by AI-driven placement tests. We assess your exact level and build a custom learning path that evolves with you.
-                    </p>
+                        {{-- Subtitle --}}
+                        <p class="anim-fade-up delay-200 text-lg text-slate-500 dark:text-slate-400 max-w-lg mb-10 leading-relaxed">
+                            AI-powered placement tests that assess your exact level. Get a custom learning path that evolves with you.
+                        </p>
 
-                    {{-- CTA Buttons --}}
-                    <div class="anim-fade-up delay-300 flex flex-col sm:flex-row items-center justify-center gap-4 mb-20">
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="group relative inline-flex items-center justify-center px-8 py-4 text-base font-semibold rounded-2xl bg-gradient-to-r from-blue-500 via-blue-600 to-violet-600 text-white hover:from-blue-600 hover:via-blue-700 hover:to-violet-700 transition-all shadow-2xl shadow-blue-500/25 hover:shadow-blue-500/40 overflow-hidden">
-                                <span class="relative z-10 flex items-center">
-                                    Start Learning Free
-                                    <svg class="ml-2 size-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                                    </svg>
-                                </span>
-                                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                        {{-- CTA Buttons --}}
+                        <div class="anim-fade-up delay-300 flex flex-col sm:flex-row items-start gap-4 mb-12">
+                            @if (Route::has('register'))
+                                <a href="{{ route('register') }}" class="group relative inline-flex items-center justify-center px-8 py-4 text-base font-semibold rounded-2xl bg-gradient-to-r from-blue-500 via-blue-600 to-cyan-600 text-white hover:from-blue-600 hover:via-blue-700 hover:to-cyan-700 transition-all shadow-2xl shadow-blue-500/25 hover:shadow-cyan-500/30 overflow-hidden">
+                                    <span class="relative z-10 flex items-center">
+                                        Start Learning Free
+                                        <svg class="ml-2 size-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                                        </svg>
+                                    </span>
+                                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                                </a>
+                            @endif
+                            <a href="#how-it-works" class="group inline-flex items-center justify-center px-8 py-4 text-base font-semibold rounded-2xl border-2 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-blue-300 dark:hover:border-blue-700 hover:bg-blue-50/50 dark:hover:bg-blue-900/10 transition-all">
+                                <svg class="mr-2 size-5 text-slate-400 group-hover:text-blue-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z"/>
+                                </svg>
+                                See How It Works
                             </a>
-                        @endif
-                        <a href="#how-it-works" class="group inline-flex items-center justify-center px-8 py-4 text-base font-semibold rounded-2xl border-2 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-blue-300 dark:hover:border-blue-700 hover:bg-blue-50/50 dark:hover:bg-blue-900/10 transition-all">
-                            <svg class="mr-2 size-5 text-slate-400 group-hover:text-blue-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z"/>
-                            </svg>
-                            See How It Works
-                        </a>
+                        </div>
+
+                        {{-- Social Proof --}}
+                        <div class="anim-fade-up delay-400 flex items-center gap-4">
+                            <div class="flex -space-x-2">
+                                <div class="size-8 rounded-full bg-blue-500 border-2 border-white dark:border-slate-900 flex items-center justify-center text-white text-xs font-bold">JD</div>
+                                <div class="size-8 rounded-full bg-emerald-500 border-2 border-white dark:border-slate-900 flex items-center justify-center text-white text-xs font-bold">SA</div>
+                                <div class="size-8 rounded-full bg-amber-500 border-2 border-white dark:border-slate-900 flex items-center justify-center text-white text-xs font-bold">MK</div>
+                                <div class="size-8 rounded-full bg-cyan-500 border-2 border-white dark:border-slate-900 flex items-center justify-center text-white text-xs font-bold">LP</div>
+                                <div class="size-8 rounded-full bg-slate-100 dark:bg-slate-800 border-2 border-white dark:border-slate-900 flex items-center justify-center text-slate-500 dark:text-slate-400 text-xs font-bold">+2k</div>
+                            </div>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">
+                                <span class="font-semibold text-slate-900 dark:text-white">2,500+</span> students enrolled
+                            </p>
+                        </div>
                     </div>
 
-                    {{-- Hero Visual — Bento Dashboard Preview --}}
-                    <div class="anim-scale-in delay-500 relative">
-                        <div class="relative rounded-3xl border border-slate-200/80 dark:border-slate-700/50 bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl shadow-2xl shadow-blue-500/10 overflow-hidden">
-                            {{-- Dashboard Header --}}
-                            <div class="px-6 py-4 border-b border-slate-100 dark:border-slate-700/50 flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <div class="flex gap-1.5">
-                                        <div class="size-3 rounded-full bg-red-400"></div>
-                                        <div class="size-3 rounded-full bg-amber-400"></div>
-                                        <div class="size-3 rounded-full bg-green-400"></div>
-                                    </div>
-                                    <div class="h-4 w-px bg-slate-200 dark:bg-slate-700 mx-2"></div>
-                                    <span class="text-xs font-medium text-slate-400 dark:text-slate-500">Placement Test Dashboard</span>
-                                </div>
-                                <div class="flex items-center gap-2 text-xs text-slate-400 dark:text-slate-500">
-                                    <svg class="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                    </svg>
-                                    55 min remaining
-                                </div>
-                            </div>
-                            
-                            {{-- Bento Grid Content --}}
-                            <div class="p-6 lg:p-8">
-                                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                                    {{-- Grammar Card --}}
-                                    <div class="group relative rounded-2xl border border-blue-200/50 dark:border-blue-800/30 bg-gradient-to-br from-blue-50/80 to-white dark:from-blue-900/20 dark:to-slate-800/50 p-5 text-center hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300 hover:-translate-y-1 cursor-pointer">
-                                        <div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                        <div class="relative">
-                                            <div class="inline-flex items-center justify-center size-12 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 text-white shadow-lg shadow-blue-500/25 mb-3 group-hover:scale-110 transition-transform duration-300">
-                                                <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    {{-- Right: Floating 3D Mockup --}}
+                    <div class="anim-scale-in delay-500 relative hidden lg:block">
+                        {{-- Floating Phone Mockup --}}
+                        <div class="relative z-10 mx-auto w-[320px] float-1">
+                            {{-- Phone Frame --}}
+                            <div class="relative rounded-[3rem] border-[6px] border-slate-800/90 dark:border-slate-700/90 bg-slate-900 shadow-2xl shadow-blue-500/20 overflow-hidden">
+                                {{-- Notch --}}
+                                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-slate-800/90 dark:bg-slate-700/90 rounded-b-2xl z-20"></div>
+                                
+                                {{-- Screen Content --}}
+                                <div class="bg-white dark:bg-slate-900 p-5 pt-8">
+                                    {{-- App Header --}}
+                                    <div class="flex items-center justify-between mb-6">
+                                        <div class="flex items-center gap-2">
+                                            <div class="size-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
+                                                <svg class="size-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                                                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
                                                 </svg>
                                             </div>
-                                            <div class="text-base font-bold text-slate-900 dark:text-white">Grammar</div>
-                                            <div class="text-sm text-slate-500 dark:text-slate-400 mt-1">15 Questions</div>
-                                            <div class="mt-3 h-1.5 w-full rounded-full bg-blue-100 dark:bg-blue-900/30 overflow-hidden">
-                                                <div class="h-full rounded-full bg-gradient-to-r from-blue-400 to-blue-600 w-[75%]"></div>
-                                            </div>
+                                            <span class="text-xs font-bold text-slate-900 dark:text-white">Tutoring</span>
+                                        </div>
+                                        <div class="size-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+                                            <svg class="size-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"/>
+                                            </svg>
                                         </div>
                                     </div>
-                                    
-                                    {{-- Vocabulary Card --}}
-                                    <div class="group relative rounded-2xl border border-emerald-200/50 dark:border-emerald-800/30 bg-gradient-to-br from-emerald-50/80 to-white dark:from-emerald-900/20 dark:to-slate-800/50 p-5 text-center hover:shadow-lg hover:shadow-emerald-500/10 transition-all duration-300 hover:-translate-y-1 cursor-pointer">
-                                        <div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                        <div class="relative">
-                                            <div class="inline-flex items-center justify-center size-12 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 text-white shadow-lg shadow-emerald-500/25 mb-3 group-hover:scale-110 transition-transform duration-300">
-                                                <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.967 8.967 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/>
-                                                </svg>
+
+                                    {{-- Welcome Card --}}
+                                    <div class="rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 p-5 mb-5 text-white shadow-lg shadow-blue-500/20">
+                                        <div class="text-xs font-medium opacity-80 mb-1">Welcome back</div>
+                                        <div class="text-lg font-bold mb-1">Your Level: B2</div>
+                                        <div class="text-xs opacity-80">Upper Intermediate</div>
+                                        <div class="mt-3 flex items-center gap-2">
+                                            <div class="h-2 flex-1 rounded-full bg-white/20 overflow-hidden">
+                                                <div class="h-full rounded-full bg-white w-[72%]"></div>
                                             </div>
-                                            <div class="text-base font-bold text-slate-900 dark:text-white">Vocabulary</div>
-                                            <div class="text-sm text-slate-500 dark:text-slate-400 mt-1">15 Questions</div>
-                                            <div class="mt-3 h-1.5 w-full rounded-full bg-emerald-100 dark:bg-emerald-900/30 overflow-hidden">
-                                                <div class="h-full rounded-full bg-gradient-to-r from-emerald-400 to-emerald-600 w-[60%]"></div>
-                                            </div>
+                                            <span class="text-xs font-bold">72%</span>
                                         </div>
                                     </div>
-                                    
-                                    {{-- Reading Card --}}
-                                    <div class="group relative rounded-2xl border border-amber-200/50 dark:border-amber-800/30 bg-gradient-to-br from-amber-50/80 to-white dark:from-amber-900/20 dark:to-slate-800/50 p-5 text-center hover:shadow-lg hover:shadow-amber-500/10 transition-all duration-300 hover:-translate-y-1 cursor-pointer">
-                                        <div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-amber-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                        <div class="relative">
-                                            <div class="inline-flex items-center justify-center size-12 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 text-white shadow-lg shadow-amber-500/25 mb-3 group-hover:scale-110 transition-transform duration-300">
-                                                <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                                                </svg>
-                                            </div>
-                                            <div class="text-base font-bold text-slate-900 dark:text-white">Reading</div>
-                                            <div class="text-sm text-slate-500 dark:text-slate-400 mt-1">9 Passages</div>
-                                            <div class="mt-3 h-1.5 w-full rounded-full bg-amber-100 dark:bg-amber-900/30 overflow-hidden">
-                                                <div class="h-full rounded-full bg-gradient-to-r from-amber-400 to-amber-600 w-[40%]"></div>
-                                            </div>
+
+                                    {{-- Quick Stats --}}
+                                    <div class="grid grid-cols-2 gap-3 mb-5">
+                                        <div class="rounded-xl bg-slate-50 dark:bg-slate-800 p-3 text-center">
+                                            <div class="text-lg font-bold text-slate-900 dark:text-white">12</div>
+                                            <div class="text-xs text-slate-500">Tests Done</div>
+                                        </div>
+                                        <div class="rounded-xl bg-slate-50 dark:bg-slate-800 p-3 text-center">
+                                            <div class="text-lg font-bold text-slate-900 dark:text-white">98%</div>
+                                            <div class="text-xs text-slate-500">Accuracy</div>
                                         </div>
                                     </div>
-                                    
-                                    {{-- Writing Card --}}
-                                    <div class="group relative rounded-2xl border border-rose-200/50 dark:border-rose-800/30 bg-gradient-to-br from-rose-50/80 to-white dark:from-rose-900/20 dark:to-slate-800/50 p-5 text-center hover:shadow-lg hover:shadow-rose-500/10 transition-all duration-300 hover:-translate-y-1 cursor-pointer">
-                                        <div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-rose-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                        <div class="relative">
-                                            <div class="inline-flex items-center justify-center size-12 rounded-xl bg-gradient-to-br from-rose-400 to-rose-600 text-white shadow-lg shadow-rose-500/25 mb-3 group-hover:scale-110 transition-transform duration-300">
-                                                <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"/>
-                                                </svg>
-                                            </div>
-                                            <div class="text-base font-bold text-slate-900 dark:text-white">Writing</div>
-                                            <div class="text-sm text-slate-500 dark:text-slate-400 mt-1">1 Essay</div>
-                                            <div class="mt-3 h-1.5 w-full rounded-full bg-rose-100 dark:bg-rose-900/30 overflow-hidden">
-                                                <div class="h-full rounded-full bg-gradient-to-r from-rose-400 to-rose-600 w-[0%]"></div>
-                                            </div>
+
+                                    {{-- Next Test Card --}}
+                                    <div class="rounded-xl border border-slate-200 dark:border-slate-700 p-4 flex items-center gap-3">
+                                        <div class="size-10 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
+                                            <svg class="size-5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                            </svg>
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="text-sm font-semibold text-slate-900 dark:text-white">Vocabulary Test</div>
+                                            <div class="text-xs text-slate-500">15 min · Due today</div>
+                                        </div>
+                                        <div class="size-8 rounded-full bg-blue-500 flex items-center justify-center">
+                                            <svg class="size-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
+                                            </svg>
                                         </div>
                                     </div>
                                 </div>
                                 
-                                {{-- Bottom Stats Bar --}}
-                                <div class="mt-6 flex items-center justify-center gap-6 text-sm text-slate-400 dark:text-slate-500">
-                                    <span class="flex items-center gap-2">
-                                        <svg class="size-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                        </svg>
-                                        55 minutes total
-                                    </span>
-                                    <span class="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-600"></span>
-                                    <span class="flex items-center gap-2">
-                                        <svg class="size-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/>
-                                        </svg>
-                                        75 marks
-                                    </span>
-                                    <span class="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-600"></span>
-                                    <span class="flex items-center gap-2">
-                                        <svg class="size-4 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                {{-- Home Indicator --}}
+                                <div class="absolute bottom-1 left-1/2 -translate-x-1/2 w-28 h-1 bg-slate-800/90 dark:bg-slate-600/90 rounded-full z-20"></div>
+                            </div>
+                            
+                            {{-- Floating Notification Card --}}
+                            <div class="absolute -right-12 top-12 rounded-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-slate-200/50 dark:border-slate-700/50 shadow-xl shadow-blue-500/10 p-4 float-2 z-20 w-48">
+                                <div class="flex items-center gap-3">
+                                    <div class="size-10 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center shrink-0">
+                                        <svg class="size-5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                         </svg>
-                                        One sitting
-                                    </span>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-semibold text-slate-900 dark:text-white">Test Completed!</div>
+                                        <div class="text-xs text-slate-500">Score: 68/75</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {{-- Floating Progress Card --}}
+                            <div class="absolute -left-8 bottom-24 rounded-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-slate-200/50 dark:border-slate-700/50 shadow-xl shadow-blue-500/10 p-4 float-3 z-20 w-44">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-xs font-semibold text-slate-900 dark:text-white">Weekly Goal</span>
+                                    <span class="text-xs font-bold text-blue-500">4/5</span>
+                                </div>
+                                <div class="h-2 rounded-full bg-slate-100 dark:bg-slate-700 overflow-hidden">
+                                    <div class="h-full rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 w-[80%]"></div>
                                 </div>
                             </div>
                         </div>
                         
-                        {{-- Glow Effect Behind --}}
-                        <div class="absolute -inset-4 bg-gradient-to-r from-blue-500/10 via-violet-500/10 to-cyan-500/10 rounded-[2rem] blur-2xl -z-10"></div>
+                        {{-- Glow Behind Mockup --}}
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-gradient-to-r from-blue-500/15 to-cyan-500/15 rounded-full blur-3xl -z-10"></div>
                     </div>
                 </div>
             </div>
@@ -642,10 +643,10 @@
                     </div>
                     <div class="reveal text-center group" style="transition-delay: 0.3s;">
                         <div class="text-5xl lg:text-6xl font-black text-slate-900 dark:text-white tracking-tight mb-2">
-                            24<span class="text-violet-500">/7</span>
+                            24<span class="text-cyan-500">/7</span>
                         </div>
                         <div class="text-sm font-medium text-slate-500 dark:text-slate-400">Learning Access</div>
-                        <div class="mt-3 h-1 w-12 mx-auto rounded-full bg-gradient-to-r from-violet-400 to-violet-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="mt-3 h-1 w-12 mx-auto rounded-full bg-gradient-to-r from-cyan-400 to-cyan-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     </div>
                 </div>
             </div>
@@ -672,7 +673,7 @@
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {{-- Feature 1 — Large Card (Smart Placement) --}}
                     <div class="reveal md:col-span-2 lg:col-span-2 group relative rounded-3xl border border-slate-200 dark:border-slate-700 bg-gradient-to-br from-slate-50 to-white dark:from-slate-800 dark:to-slate-900 p-8 lg:p-10 overflow-hidden card-hover">
-                        <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-500/10 to-violet-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
                         <div class="relative flex flex-col lg:flex-row lg:items-start gap-8">
                             <div class="flex-shrink-0">
                                 <div class="inline-flex items-center justify-center size-16 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-xl shadow-blue-500/25">
@@ -758,10 +759,10 @@
 
                     {{-- Feature 5 — Expert Tutors (Large Card) --}}
                     <div class="reveal md:col-span-2 lg:col-span-2 group relative rounded-3xl border border-slate-200 dark:border-slate-700 bg-gradient-to-br from-slate-50 to-white dark:from-slate-800 dark:to-slate-900 p-8 lg:p-10 overflow-hidden card-hover" style="transition-delay: 0.4s;">
-                        <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-violet-500/10 to-emerald-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-cyan-500/10 to-emerald-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
                         <div class="relative flex flex-col lg:flex-row lg:items-start gap-8">
                             <div class="flex-shrink-0">
-                                <div class="inline-flex items-center justify-center size-16 rounded-2xl bg-gradient-to-br from-violet-500 to-violet-600 text-white shadow-xl shadow-violet-500/25">
+                                <div class="inline-flex items-center justify-center size-16 rounded-2xl bg-gradient-to-br from-cyan-500 to-cyan-600 text-white shadow-xl shadow-cyan-500/25">
                                     <svg class="size-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
                                     </svg>
@@ -777,7 +778,7 @@
                                         <div class="size-8 rounded-full bg-blue-500 border-2 border-white dark:border-slate-800 flex items-center justify-center text-white text-xs font-bold">JD</div>
                                         <div class="size-8 rounded-full bg-emerald-500 border-2 border-white dark:border-slate-800 flex items-center justify-center text-white text-xs font-bold">MK</div>
                                         <div class="size-8 rounded-full bg-amber-500 border-2 border-white dark:border-slate-800 flex items-center justify-center text-white text-xs font-bold">SA</div>
-                                        <div class="size-8 rounded-full bg-violet-500 border-2 border-white dark:border-slate-800 flex items-center justify-center text-white text-xs font-bold">LP</div>
+                                        <div class="size-8 rounded-full bg-cyan-500 border-2 border-white dark:border-slate-800 flex items-center justify-center text-white text-xs font-bold">LP</div>
                                         <div class="size-8 rounded-full bg-slate-200 dark:bg-slate-700 border-2 border-white dark:border-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400 text-xs font-bold">+12</div>
                                     </div>
                                     <span class="text-sm text-slate-500 dark:text-slate-400">Expert tutors available</span>
@@ -793,7 +794,7 @@
         <section id="how-it-works" class="py-24 lg:py-32 relative overflow-hidden">
             <div class="absolute inset-0 bg-gradient-to-b from-white via-slate-50/50 to-white dark:from-slate-900 dark:via-slate-800/30 dark:to-slate-900"></div>
             <div class="absolute top-1/2 left-0 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-3xl -translate-y-1/2"></div>
-            <div class="absolute top-1/2 right-0 w-[500px] h-[500px] bg-violet-500/5 rounded-full blur-3xl -translate-y-1/2"></div>
+            <div class="absolute top-1/2 right-0 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-3xl -translate-y-1/2"></div>
             
             <div class="relative max-w-7xl mx-auto px-6 lg:px-8">
                 <div class="max-w-2xl mx-auto text-center mb-20">
@@ -821,7 +822,7 @@
                             </div>
                             {{-- Connector --}}
                             <div class="hidden md:block absolute top-1/2 left-[calc(100%+24px)] w-[calc(100%+24px)] h-0.5">
-                                <div class="h-full bg-gradient-to-r from-blue-500/50 to-emerald-500/50 rounded-full"></div>
+                                <div class="h-full bg-gradient-to-r from-blue-500/50 to-teal-500/50 rounded-full"></div>
                             </div>
                         </div>
                         <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Create Your Account</h3>
@@ -838,7 +839,7 @@
                                 2
                             </div>
                             <div class="hidden md:block absolute top-1/2 left-[calc(100%+24px)] w-[calc(100%+24px)] h-0.5">
-                                <div class="h-full bg-gradient-to-r from-emerald-500/50 to-violet-500/50 rounded-full"></div>
+                                <div class="h-full bg-gradient-to-r from-emerald-500/50 to-cyan-500/50 rounded-full"></div>
                             </div>
                         </div>
                         <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Take the Placement Test</h3>
@@ -850,8 +851,8 @@
                     {{-- Step 3 --}}
                     <div class="reveal relative text-center group" style="transition-delay: 0.3s;">
                         <div class="relative inline-flex items-center justify-center mb-8">
-                            <div class="absolute inset-0 bg-violet-500/20 rounded-3xl blur-xl group-hover:bg-violet-500/30 transition-all"></div>
-                            <div class="relative inline-flex items-center justify-center size-20 rounded-2xl bg-gradient-to-br from-violet-500 to-violet-600 text-white text-3xl font-black shadow-2xl shadow-violet-500/30 group-hover:scale-110 transition-transform duration-300">
+                            <div class="absolute inset-0 bg-cyan-500/20 rounded-3xl blur-xl group-hover:bg-cyan-500/30 transition-all"></div>
+                            <div class="relative inline-flex items-center justify-center size-20 rounded-2xl bg-gradient-to-br from-cyan-500 to-cyan-600 text-white text-3xl font-black shadow-2xl shadow-cyan-500/30 group-hover:scale-110 transition-transform duration-300">
                                 3
                             </div>
                         </div>
@@ -937,7 +938,7 @@
 
                     {{-- Testimonial 3 --}}
                     <div class="reveal group relative rounded-3xl border border-slate-200 dark:border-slate-700 bg-gradient-to-br from-white to-slate-50 dark:from-slate-800 dark:to-slate-900 p-8 overflow-hidden card-hover" style="transition-delay: 0.3s;">
-                        <div class="absolute top-0 right-0 w-32 h-32 bg-violet-500/5 rounded-full blur-2xl"></div>
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-cyan-500/5 rounded-full blur-2xl"></div>
                         <div class="relative">
                             <div class="flex items-center gap-1 mb-6">
                                 @for ($i = 0; $i < 5; $i++)
@@ -950,7 +951,7 @@
                                 "From intermediate to advanced in just 3 months. The progress tracking kept me motivated and the content was always challenging but achievable. Best investment in my education."
                             </p>
                             <div class="flex items-center gap-4 pt-6 border-t border-slate-200 dark:border-slate-700">
-                                <div class="size-12 rounded-2xl bg-gradient-to-br from-violet-400 to-violet-600 flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-violet-500/20">
+                                <div class="size-12 rounded-2xl bg-gradient-to-br from-cyan-400 to-cyan-600 flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-cyan-500/20">
                                     LP
                                 </div>
                                 <div>
@@ -967,11 +968,11 @@
         {{-- === PRICING SECTION === --}}
         <section id="pricing" class="py-24 lg:py-32 relative overflow-hidden">
             <div class="absolute inset-0 bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-900/50"></div>
-            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-r from-blue-500/5 to-violet-500/5 rounded-full blur-3xl"></div>
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-r from-blue-500/5 to-cyan-500/5 rounded-full blur-3xl"></div>
             
             <div class="relative max-w-7xl mx-auto px-6 lg:px-8">
                 <div class="max-w-2xl mx-auto text-center mb-20">
-                    <div class="reveal inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-50 dark:bg-violet-900/20 border border-violet-200/50 dark:border-violet-800/50 text-sm font-semibold text-violet-600 dark:text-violet-400 mb-6">
+                    <div class="reveal inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-50 dark:bg-cyan-900/20 border border-cyan-200/50 dark:border-cyan-800/50 text-sm font-semibold text-cyan-600 dark:text-cyan-400 mb-6">
                         <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
@@ -1094,31 +1095,31 @@
                         </div>
                         <ul class="space-y-4 mb-8">
                             <li class="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-300">
-                                <svg class="size-5 text-violet-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <svg class="size-5 text-cyan-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
                                 Everything in Pro
                             </li>
                             <li class="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-300">
-                                <svg class="size-5 text-violet-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <svg class="size-5 text-cyan-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
                                 Weekly 1-on-1 tutoring
                             </li>
                             <li class="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-300">
-                                <svg class="size-5 text-violet-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <svg class="size-5 text-cyan-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
                                 Speaking practice
                             </li>
                             <li class="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-300">
-                                <svg class="size-5 text-violet-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <svg class="size-5 text-cyan-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
                                 Exam preparation
                             </li>
                             <li class="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-300">
-                                <svg class="size-5 text-violet-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <svg class="size-5 text-cyan-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
                                 Priority support
@@ -1138,14 +1139,14 @@
             <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/50 via-slate-900 to-slate-900"></div>
             <div class="absolute inset-0">
                 <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl"></div>
-                <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-violet-500/20 rounded-full blur-3xl"></div>
+                <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl"></div>
             </div>
             
             {{-- Floating particles --}}
             <div class="absolute inset-0 overflow-hidden pointer-events-none">
                 <div class="absolute top-[20%] left-[15%] size-2 bg-blue-400/30 rounded-full float-1"></div>
-                <div class="absolute top-[40%] right-[20%] size-3 bg-violet-400/20 rounded-full float-2"></div>
-                <div class="absolute bottom-[30%] left-[25%] size-2 bg-cyan-400/30 rounded-full float-3"></div>
+                <div class="absolute top-[40%] right-[20%] size-3 bg-cyan-400/20 rounded-full float-2"></div>
+                <div class="absolute bottom-[30%] left-[25%] size-2 bg-teal-400/30 rounded-full float-3"></div>
                 <div class="absolute top-[60%] right-[30%] size-2 bg-blue-300/20 rounded-full float-1"></div>
             </div>
 
