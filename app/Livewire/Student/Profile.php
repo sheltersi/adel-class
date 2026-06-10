@@ -73,7 +73,7 @@ class Profile extends Component
     #[Computed]
     public function skillDomains(): array
     {
-        if (!$this->placementCompleted) {
+        if (! $this->placementCompleted) {
             return [];
         }
 

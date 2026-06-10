@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Passage;
 use App\Models\Question;
 use App\Models\QuestionOption;
+use App\Models\SubSkill;
 use App\Models\SyllabusSection;
 use App\Models\Topic;
 use App\Models\WritingPrompt;
@@ -141,7 +142,7 @@ class PlacementTestSeeder extends Seeder
             ],
             [
                 'question_type' => 'fill_blank', 'difficulty' => 2, 'marks' => 1,
-                'stem' => "Complete: \"The students were tired ____ they had been studying all night. ____ they decided to take ____ short break before continuing.\"",
+                'stem' => 'Complete: "The students were tired ____ they had been studying all night. ____ they decided to take ____ short break before continuing."',
                 'options' => [
                     ['text' => 'because', 'correct' => true, 'sort_order' => 'Q1'],
                     ['text' => 'Therefore', 'correct' => true, 'sort_order' => 'Q2'],
@@ -155,7 +156,7 @@ class PlacementTestSeeder extends Seeder
             ],
             [
                 'question_type' => 'fill_blank', 'difficulty' => 3, 'marks' => 1,
-                'stem' => "Complete: \"You ____ submit the assignment by Friday. The teacher said we ____ ask for an extension if we ____ a valid reason.\"",
+                'stem' => 'Complete: "You ____ submit the assignment by Friday. The teacher said we ____ ask for an extension if we ____ a valid reason."',
                 'options' => [
                     ['text' => 'must', 'correct' => true, 'sort_order' => 'Q1'],
                     ['text' => 'could', 'correct' => true, 'sort_order' => 'Q2'],
@@ -169,7 +170,7 @@ class PlacementTestSeeder extends Seeder
             ],
             [
                 'question_type' => 'fill_blank', 'difficulty' => 2, 'marks' => 1,
-                'stem' => "Complete: \"Neither the teacher nor the students ____ happy with the decision. Everyone ____ asked to share ____ opinion.\"",
+                'stem' => 'Complete: "Neither the teacher nor the students ____ happy with the decision. Everyone ____ asked to share ____ opinion."',
                 'options' => [
                     ['text' => 'were', 'correct' => true, 'sort_order' => 'Q1'],
                     ['text' => 'was', 'correct' => true, 'sort_order' => 'Q2'],
@@ -183,7 +184,7 @@ class PlacementTestSeeder extends Seeder
             ],
             [
                 'question_type' => 'fill_blank', 'difficulty' => 3, 'marks' => 1,
-                'stem' => "Complete: \"This book is ____ more interesting ____ the one we read last term. It is one of ____ best novels I have ever read.\"",
+                'stem' => 'Complete: "This book is ____ more interesting ____ the one we read last term. It is one of ____ best novels I have ever read."',
                 'options' => [
                     ['text' => 'much', 'correct' => true, 'sort_order' => 'Q1'],
                     ['text' => 'than', 'correct' => true, 'sort_order' => 'Q2'],
@@ -215,7 +216,7 @@ class PlacementTestSeeder extends Seeder
             }
 
             foreach ($tags as $tagSlug) {
-                $subSkill = \App\Models\SubSkill::where('slug', $tagSlug)->first();
+                $subSkill = SubSkill::where('slug', $tagSlug)->first();
                 if ($subSkill) {
                     $question->subSkills()->syncWithoutDetaching([$subSkill->id => ['weight' => 1]]);
                 }
@@ -389,7 +390,7 @@ class PlacementTestSeeder extends Seeder
             }
 
             foreach ($tags as $tagSlug) {
-                $subSkill = \App\Models\SubSkill::where('slug', $tagSlug)->first();
+                $subSkill = SubSkill::where('slug', $tagSlug)->first();
                 if ($subSkill) {
                     $question->subSkills()->syncWithoutDetaching([$subSkill->id => ['weight' => 1]]);
                 }
@@ -452,7 +453,7 @@ class PlacementTestSeeder extends Seeder
             [
                 'topic_id' => $topic->id,
                 'prompt_type' => 'descriptive',
-                'scenario' => "Describe a place where you feel calm and relaxed. What do you see, hear, and feel there? Write 150–200 words.",
+                'scenario' => 'Describe a place where you feel calm and relaxed. What do you see, hear, and feel there? Write 150–200 words.',
                 'word_limit_min' => 150,
                 'word_limit_max' => 200,
                 'suggested_time_minutes' => 15,
@@ -467,7 +468,7 @@ class PlacementTestSeeder extends Seeder
             [
                 'topic_id' => $topic->id,
                 'prompt_type' => 'narrative',
-                'scenario' => "Write a story about a time when something unexpected happened. Describe what led up to it and how you reacted. Write 150–200 words.",
+                'scenario' => 'Write a story about a time when something unexpected happened. Describe what led up to it and how you reacted. Write 150–200 words.',
                 'word_limit_min' => 150,
                 'word_limit_max' => 200,
                 'suggested_time_minutes' => 15,

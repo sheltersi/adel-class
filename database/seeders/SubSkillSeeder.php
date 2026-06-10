@@ -659,7 +659,7 @@ class SubSkillSeeder extends Seeder
         $this->seedDomain($domains['reading'], $this->readingSkills);
         $this->seedDomain($domains['writing'], $this->writingSkills);
 
-        $this->command?->info('Sub-skill hierarchy seeded: ' . SubSkill::count() . ' sub-skills.');
+        $this->command?->info('Sub-skill hierarchy seeded: '.SubSkill::count().' sub-skills.');
     }
 
     private function seedDomain(SkillDomain $domain, array $topLevelSkills): void

@@ -8,21 +8,25 @@ use Illuminate\Support\Facades\Auth;
 
 class RedirectIfPlacementCompleted
 {
-    /**
-     * If the student has already taken the placement test,
-     * block access to the placement test page.
-     */
+    private const REQUIRED_SECTIONS = ['grammar', 'vocabulary', 'reading', 'writing'];
+
     public function handle(Request $request, Closure $next)
     {
         $user = Auth::user();
 
-        if (!$user) {
+        if (! $user) {
             return $next($request);
         }
 
         $studentProfile = $user->studentProfile;
 
-        if ($studentProfile && $studentProfile->placement_completed) {
+        if (! $studentProfile) {
+            return $next($request);
+        }
+
+        $sectionsDone = $studentProfile->placement_sections_completed ?? [];
+
+        if (count(array_intersect(array_keys($sectionsDone), self::REQUIRED_SECTIONS)) === count(self::REQUIRED_SECTIONS)) {
             return redirect()->route('dashboard');
         }
 

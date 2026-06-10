@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Middleware\RedirectIfPlacementCompleted;
+use App\Http\Middleware\RedirectIfPlacementNotCompleted;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -13,8 +15,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
-            'placement.required' => \App\Http\Middleware\RedirectIfPlacementNotCompleted::class,
-            'placement.completed' => \App\Http\Middleware\RedirectIfPlacementCompleted::class,
+            'placement.required' => RedirectIfPlacementNotCompleted::class,
+            'placement.completed' => RedirectIfPlacementCompleted::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

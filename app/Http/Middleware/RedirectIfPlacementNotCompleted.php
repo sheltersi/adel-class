@@ -17,13 +17,13 @@ class RedirectIfPlacementNotCompleted
     {
         $user = Auth::user();
 
-        if (!$user) {
+        if (! $user) {
             return $next($request);
         }
 
         $studentProfile = $user->studentProfile;
 
-        if ($studentProfile && !$studentProfile->placement_completed) {
+        if ($studentProfile && ! $studentProfile->placement_completed) {
             return redirect()->route('placement-test');
         }
 

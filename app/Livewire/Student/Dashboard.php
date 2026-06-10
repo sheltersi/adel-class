@@ -75,7 +75,7 @@ class Dashboard extends Component
     #[Computed]
     public function skillDomains(): array
     {
-        if (!$this->placementCompleted) {
+        if (! $this->placementCompleted) {
             return [];
         }
 
@@ -112,7 +112,7 @@ class Dashboard extends Component
     #[Computed]
     public function latestReport(): ?DiagnosticReport
     {
-        if (!$this->placementCompleted) {
+        if (! $this->placementCompleted) {
             return null;
         }
 
@@ -124,7 +124,7 @@ class Dashboard extends Component
     #[Computed]
     public function activePlan()
     {
-        if (!$this->placementCompleted) {
+        if (! $this->placementCompleted) {
             return null;
         }
 
@@ -138,7 +138,7 @@ class Dashboard extends Component
     #[Computed]
     public function recentActivity(): array
     {
-        if (!$this->placementCompleted) {
+        if (! $this->placementCompleted) {
             return [];
         }
 

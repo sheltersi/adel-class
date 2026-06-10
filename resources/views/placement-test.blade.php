@@ -9,34 +9,34 @@
 
             <div class="relative z-10 flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between">
                 <div class="max-w-2xl">
-                    <div class="mb-3 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-sm font-medium text-cyan-300 ring-1 ring-white/20 backdrop-blur-sm">
-                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        {{ __('Free Assessment') }}
-                    </div>
-                    <flux:heading size="xl" class="text-3xl font-bold text-white md:text-4xl lg:text-5xl">
-                        {{ __('Placement Test') }}
-                    </flux:heading>
-                    <flux:text class="mt-3 text-lg text-slate-300">
-                        {{ __('Complete this comprehensive assessment to help us understand your current English level and create a personalized learning path just for you.') }}
-                    </flux:text>
+                <div class="mb-3 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-sm font-medium text-cyan-300 ring-1 ring-white/20 backdrop-blur-sm">
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    {{ __('Self-Paced Assessment') }}
+                </div>
+                <flux:heading size="xl" class="text-3xl font-bold text-white md:text-4xl lg:text-5xl">
+                    {{ __('Placement Test') }}
+                </flux:heading>
+                <flux:text class="mt-3 text-lg text-slate-300">
+                    {{ __('Take one section at a time, at your own pace. Complete each section when you are ready and get your results immediately.') }}
+                </flux:text>
                 </div>
 
-                {{-- Circular Progress Indicator --}}
-                <div class="hidden shrink-0 flex-col items-center gap-2 md:flex">
-                    <div class="relative flex h-32 w-32 items-center justify-center">
-                        <svg class="h-32 w-32 -rotate-90" viewBox="0 0 120 120">
-                            <circle cx="60" cy="60" r="54" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="8" />
-                            <circle cx="60" cy="60" r="54" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-dasharray="339.292" stroke-dashoffset="84.823" class="text-cyan-400 transition-all duration-1000" />
-                        </svg>
-                        <div class="absolute flex flex-col items-center">
-                            <span class="text-3xl font-bold text-white">55</span>
-                            <span class="text-xs text-slate-400">{{ __('min') }}</span>
-                        </div>
+            {{-- Circular Progress Indicator --}}
+            <div class="hidden shrink-0 flex-col items-center gap-2 md:flex">
+                <div class="relative flex h-32 w-32 items-center justify-center">
+                    <svg class="h-32 w-32 -rotate-90" viewBox="0 0 120 120">
+                        <circle cx="60" cy="60" r="54" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="8" />
+                        <circle cx="60" cy="60" r="54" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-dasharray="339.292" stroke-dashoffset="0" class="text-cyan-400 transition-all duration-1000" />
+                    </svg>
+                    <div class="absolute flex flex-col items-center">
+                        <span class="text-3xl font-bold text-white">4</span>
+                        <span class="text-xs text-slate-400">{{ __('sections') }}</span>
                     </div>
-                    <span class="text-sm font-medium text-slate-300">{{ __('Duration') }}</span>
                 </div>
+                <span class="text-sm font-medium text-slate-300">{{ __('Self-Paced') }}</span>
+            </div>
             </div>
         </div>
 
@@ -72,15 +72,15 @@
                 <div class="text-sm text-slate-500 dark:text-slate-400">{{ __('Total Marks') }}</div>
             </div>
 
-            <div class="group rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition-all hover:shadow-md dark:border-slate-700 dark:bg-slate-800">
-                <div class="mb-2 flex h-10 w-10 items-center justify-center rounded-lg bg-orange-50 text-orange-600 dark:bg-orange-900/20 dark:text-orange-400">
-                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                </div>
-                <div class="text-2xl font-bold text-slate-900 dark:text-white">55</div>
-                <div class="text-sm text-slate-500 dark:text-slate-400">{{ __('Minutes') }}</div>
+        <div class="group rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition-all hover:shadow-md dark:border-slate-700 dark:bg-slate-800">
+            <div class="mb-2 flex h-10 w-10 items-center justify-center rounded-lg bg-orange-50 text-orange-600 dark:bg-orange-900/20 dark:text-orange-400">
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
             </div>
+            <div class="text-2xl font-bold text-slate-900 dark:text-white">10–18</div>
+            <div class="text-sm text-slate-500 dark:text-slate-400">{{ __('Min / Section') }}</div>
+        </div>
         </div>
 
         {{-- Section Cards --}}
@@ -309,15 +309,15 @@
                 <flux:heading size="lg" class="text-lg font-bold text-slate-900 dark:text-white">{{ __('Important Notes') }}</flux:heading>
             </div>
             <div class="grid gap-4 md:grid-cols-2">
-                <div class="flex items-start gap-3 rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800">
-                    <svg class="mt-0.5 h-5 w-5 shrink-0 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <div>
-                        <div class="font-medium text-slate-900 dark:text-white">{{ __('One Sitting Required') }}</div>
-                        <div class="text-sm text-slate-500 dark:text-slate-400">{{ __('Once you begin, you should complete the entire test in one session.') }}</div>
-                    </div>
+            <div class="flex items-start gap-3 rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800">
+                <svg class="mt-0.5 h-5 w-5 shrink-0 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <div>
+                    <div class="font-medium text-slate-900 dark:text-white">{{ __('One Section at a Time') }}</div>
+                    <div class="text-sm text-slate-500 dark:text-slate-400">{{ __('Complete each section at your own pace. Your progress is saved automatically.') }}</div>
                 </div>
+            </div>
                 <div class="flex items-start gap-3 rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800">
                     <svg class="mt-0.5 h-5 w-5 shrink-0 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
@@ -354,7 +354,7 @@
             <div class="relative z-10">
                 <h3 class="mb-3 text-2xl font-bold text-white md:text-3xl">{{ __('Ready to Begin?') }}</h3>
                 <p class="mb-8 text-lg text-blue-100">
-                    {{ __('Total: 75 marks · 55 minutes · 4 sections') }}
+                    {{ __('Total: 75 marks · 4 sections · Take at your own pace') }}
                 </p>
                 <div class="flex flex-col items-center justify-center gap-4 sm:flex-row">
                     <flux:button variant="primary" class="min-w-[200px] !bg-white !px-8 !py-3 !text-base !font-semibold !text-slate-900 hover:!bg-slate-100">
@@ -368,7 +368,7 @@
                     </flux:button>
                 </div>
                 <p class="mt-4 text-sm text-blue-200">
-                    {{ __('Once started, the timer cannot be paused.') }}
+                    {{ __('Scores are shown after each section. Each section has its own timer.') }}
                 </p>
             </div>
         </div>

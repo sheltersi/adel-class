@@ -9,6 +9,7 @@ use App\Models\Passage;
 use App\Models\Question;
 use App\Models\QuestionOption;
 use App\Models\QuestionResponse;
+use App\Models\SkillDomain;
 use App\Models\StudentSubSkillScore;
 use App\Models\Topic;
 use App\Models\WritingPrompt;
@@ -22,48 +23,224 @@ use Livewire\Component;
 #[Title('Placement Test')]
 class PlacementTest extends Component
 {
-    public int $currentStep = 1;
-
-    public int $totalSteps = 4;
+    public string $view = 'overview';
 
     public array $answers = [];
 
     public ?int $assessmentId = null;
 
-    public ?array $passages = null;
+    public ?array $questions = null;
 
-    public ?array $grammarQuestions = null;
-
-    public ?array $vocabQuestions = null;
-
-    public ?array $readingQuestions = null;
+    public ?array $passage = null;
 
     public ?array $writingPrompt = null;
 
     public string $essayContent = '';
 
-    public int $timeRemaining = 3300;
+    public int $timeRemaining = 0;
+
+    public int $sectionTimeLimit = 0;
+
+    public array $sectionsCompleted = [];
+
+    public array $lastResults = [];
+
+    private const SECTIONS = [
+        'grammar' => ['name' => 'Grammar', 'step' => 1, 'max_score' => 15, 'time_seconds' => 720],
+        'vocabulary' => ['name' => 'Vocabulary', 'step' => 2, 'max_score' => 15, 'time_seconds' => 600],
+        'reading' => ['name' => 'Reading', 'step' => 3, 'max_score' => 20, 'time_seconds' => 1080],
+        'writing' => ['name' => 'Writing', 'step' => 4, 'max_score' => 25, 'time_seconds' => 900],
+    ];
 
     public function mount(): void
     {
-        $studentProfile = Auth::user()->studentProfile;
+        $profile = Auth::user()->studentProfile;
+        $this->sectionsCompleted = $profile->placement_sections_completed ?? [];
+
+        if (count(array_intersect(array_keys($this->sectionsCompleted), array_keys(self::SECTIONS))) === count(self::SECTIONS)) {
+            $this->redirect(route('profile'), navigate: true);
+
+            return;
+        }
+
+        $inProgress = $this->findInProgressSection();
+        if ($inProgress) {
+            $this->resumeSection($inProgress);
+
+            return;
+        }
+    }
+
+    private function findInProgressSection(): ?string
+    {
+        $profileId = Auth::user()->studentProfile->id;
+
+        foreach (array_keys(self::SECTIONS) as $section) {
+            if (isset($this->sectionsCompleted[$section])) {
+                continue;
+            }
+
+            $assessment = Assessment::where('student_profile_id', $profileId)
+                ->where('assessment_type', 'diagnostic')
+                ->where('paper', 'Placement '.ucfirst($section))
+                ->where('status', 'in_progress')
+                ->first();
+
+            if ($assessment) {
+                $this->assessmentId = $assessment->id;
+                $this->timeRemaining = $assessment->time_remaining_seconds ?? self::SECTIONS[$section]['time_seconds'];
+                $this->sectionTimeLimit = self::SECTIONS[$section]['time_seconds'];
+
+                return $section;
+            }
+        }
+
+        return null;
+    }
+
+    private function resumeSection(string $section): void
+    {
+        $this->view = $section;
+        $this->loadQuestionsForSection($section);
+
+        $answers = QuestionResponse::whereHas('assessmentQuestion', function ($q) {
+            $q->where('assessment_id', $this->assessmentId);
+        })->get();
+
+        foreach ($answers as $resp) {
+            $this->answers[$resp->assessmentQuestion->question_id] = $resp->student_answer;
+        }
+    }
+
+    public function startSection(string $section): void
+    {
+        if (! $this->canStartSection($section)) {
+            return;
+        }
+
+        $profile = Auth::user()->studentProfile;
 
         $assessment = Assessment::create([
-            'student_profile_id' => $studentProfile->id,
+            'student_profile_id' => $profile->id,
             'assessment_type' => 'diagnostic',
-            'paper' => 'Full',
+            'paper' => 'Placement '.ucfirst($section),
             'status' => 'in_progress',
             'started_at' => now(),
-            'time_limit_seconds' => 3300,
-            'time_remaining_seconds' => 3300,
-            'total_marks' => 75,
+            'time_limit_seconds' => self::SECTIONS[$section]['time_seconds'],
+            'time_remaining_seconds' => self::SECTIONS[$section]['time_seconds'],
+            'total_marks' => self::SECTIONS[$section]['max_score'],
         ]);
 
         $this->assessmentId = $assessment->id;
+        $this->answers = [];
+        $this->essayContent = '';
+        $this->passage = null;
+        $this->writingPrompt = null;
+        $this->lastResults = [];
+        $this->sectionTimeLimit = self::SECTIONS[$section]['time_seconds'];
+        $this->timeRemaining = self::SECTIONS[$section]['time_seconds'];
+        $this->view = $section;
 
-        $this->loadGrammarQuestions();
-        $this->loadVocabularyQuestions();
-        $this->loadPassageA();
+        $this->loadQuestionsForSection($section);
+    }
+
+    private function canStartSection(string $section): bool
+    {
+        if (isset($this->sectionsCompleted[$section])) {
+            return false;
+        }
+
+        $sectionDef = self::SECTIONS[$section];
+        $step = $sectionDef['step'];
+
+        foreach (self::SECTIONS as $key => $def) {
+            if ($def['step'] >= $step) {
+                continue;
+            }
+            if (! isset($this->sectionsCompleted[$key])) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function getNextAvailableSection(): ?string
+    {
+        foreach (self::SECTIONS as $key => $def) {
+            if (! isset($this->sectionsCompleted[$key])) {
+                return $key;
+            }
+        }
+
+        return null;
+    }
+
+    public function isSectionCompleted(string $section): bool
+    {
+        return isset($this->sectionsCompleted[$section]);
+    }
+
+    public function isSectionAvailable(string $section): bool
+    {
+        if ($this->isSectionCompleted($section)) {
+            return false;
+        }
+
+        return $this->getNextAvailableSection() === $section;
+    }
+
+    public function getSectionLabel(string $section): string
+    {
+        return self::SECTIONS[$section]['name'];
+    }
+
+    public function getSectionMaxScore(string $section): int
+    {
+        return self::SECTIONS[$section]['max_score'];
+    }
+
+    public function getSectionTime(string $section): int
+    {
+        return self::SECTIONS[$section]['time_seconds'];
+    }
+
+    public function getSectionScore(string $section): ?int
+    {
+        return $this->sectionsCompleted[$section]['score'] ?? null;
+    }
+
+    public function getSectionPercentage(string $section): ?float
+    {
+        return $this->sectionsCompleted[$section]['percentage'] ?? null;
+    }
+
+    public function getOverallScore(): int
+    {
+        $total = 0;
+        foreach ($this->sectionsCompleted as $data) {
+            $total += $data['score'] ?? 0;
+        }
+
+        return $total;
+    }
+
+    public function getOverallPercentage(): float
+    {
+        $totalMarks = array_sum(array_column(self::SECTIONS, 'max_score'));
+
+        return round(($this->getOverallScore() / $totalMarks) * 100, 1);
+    }
+
+    private function loadQuestionsForSection(string $section): void
+    {
+        match ($section) {
+            'grammar' => $this->loadGrammarQuestions(),
+            'vocabulary' => $this->loadVocabularyQuestions(),
+            'reading' => $this->loadReadingSection(),
+            'writing' => $this->loadWritingPrompt(),
+            default => null,
+        };
     }
 
     private function loadGrammarQuestions(): void
@@ -71,7 +248,7 @@ class PlacementTest extends Component
         $questions = $this->placementQuestions()->where('question_type', '!=', 'essay')
             ->take(15)->get();
 
-        $this->grammarQuestions = $questions->map(fn ($q) => $this->formatQuestion($q))->toArray();
+        $this->questions = $questions->map(fn ($q) => $this->formatQuestion($q))->toArray();
     }
 
     private function loadVocabularyQuestions(): void
@@ -80,10 +257,10 @@ class PlacementTest extends Component
             ->where('question_type', '!=', 'essay')
             ->skip(15)->take(15)->get();
 
-        $this->vocabQuestions = $questions->map(fn ($q) => $this->formatQuestion($q))->toArray();
+        $this->questions = $questions->map(fn ($q) => $this->formatQuestion($q))->toArray();
     }
 
-    private function loadPassageA(): void
+    private function loadReadingSection(): void
     {
         $passage = Passage::where('passage_type', 'narrative')
             ->where('is_active', true)
@@ -96,20 +273,21 @@ class PlacementTest extends Component
 
         if ($questions->count() < 4) {
             $questions = $this->placementQuestions()
-                ->whereNotIn('id', collect($this->grammarQuestions)->pluck('id'))
-                ->whereNotIn('id', collect($this->vocabQuestions)->pluck('id'))
+                ->whereNotIn('id', Question::where('topic_id', $this->placementTopic()->id)
+                    ->where('question_type', '!=', 'essay')
+                    ->take(30)->pluck('id'))
                 ->take(4)->get();
         }
 
-        $this->readingQuestions = $questions->map(fn ($q) => $this->formatQuestion($q))->toArray();
+        $this->questions = $questions->map(fn ($q) => $this->formatQuestion($q))->toArray();
 
         if ($passage) {
-            $this->passages = [[
+            $this->passage = [
                 'id' => $passage->id,
                 'title' => $passage->title,
                 'content' => $passage->content,
                 'type' => 'narrative',
-            ]];
+            ];
         }
     }
 
@@ -128,7 +306,7 @@ class PlacementTest extends Component
             ->inRandomOrder()
             ->first();
 
-        if (!$prompt) {
+        if (! $prompt) {
             $prompt = WritingPrompt::where('is_active', true)->first();
         }
 
@@ -167,8 +345,6 @@ class PlacementTest extends Component
             ])->toArray()
             : [];
 
-        $tags = $q->subSkills->pluck('id')->toArray();
-
         return [
             'id' => $q->id,
             'stem' => $q->stem,
@@ -176,8 +352,22 @@ class PlacementTest extends Component
             'marks' => $q->marks,
             'difficulty' => $q->difficulty,
             'options' => $options,
-            'tags' => $tags,
         ];
+    }
+
+    private function calculatePreScore(): float
+    {
+        $score = 0;
+
+        if (isset($this->sectionsCompleted['grammar'])) {
+            $score += $this->sectionsCompleted['grammar']['score'];
+        }
+
+        if (isset($this->sectionsCompleted['vocabulary'])) {
+            $score += $this->sectionsCompleted['vocabulary']['score'];
+        }
+
+        return $score;
     }
 
     public function answerQuestion(int $questionId, $value): void
@@ -185,72 +375,78 @@ class PlacementTest extends Component
         $this->answers[$questionId] = $value;
     }
 
-    public function goToStep(int $step): void
-    {
-        if ($step < 1 || $step > $this->totalSteps) return;
-        if ($step > $this->currentStep) return; // Can't skip forward
-
-        if ($step === 4 && !$this->writingPrompt) {
-            $this->loadWritingPrompt();
-        }
-
-        $this->currentStep = $step;
-    }
-
-    public function nextStep(): void
-    {
-        if ($this->currentStep === 1) {
-            $this->saveSectionAnswers('grammar', $this->grammarQuestions);
-        }
-        if ($this->currentStep === 2) {
-            $this->saveSectionAnswers('vocabulary', $this->vocabQuestions);
-        }
-        if ($this->currentStep === 3) {
-            $this->saveSectionAnswers('reading', $this->readingQuestions);
-            $this->loadWritingPrompt();
-        }
-
-        if ($this->currentStep < $this->totalSteps) {
-            $this->currentStep++;
-        }
-    }
-
-    public function previousStep(): void
-    {
-        if ($this->currentStep > 1) {
-            $this->currentStep--;
-        }
-    }
-
-    private function saveSectionAnswers(string $section, array $questions): void
-    {
-        foreach ($questions as $q) {
-            $answer = $this->answers[$q['id']] ?? null;
-            if ($answer === null) continue;
-
-            AssessmentQuestion::firstOrCreate(
-                ['assessment_id' => $this->assessmentId, 'question_id' => $q['id']],
-                ['sort_order' => 0]
-            );
-        }
-    }
-
     public function submit(): void
     {
-        DB::transaction(function () {
-            // Save all answers
-            $allQuestions = array_merge(
-                $this->grammarQuestions ?? [],
-                $this->vocabQuestions ?? [],
-                $this->readingQuestions ?? []
-            );
+        $section = $this->view;
 
-            foreach ($allQuestions as $q) {
-                $answer = $this->answers[$q['id']] ?? null;
-                $this->recordAnswer($q, $answer);
+        if (! in_array($section, array_keys(self::SECTIONS))) {
+            return;
+        }
+
+        DB::transaction(function () use ($section) {
+            $this->saveAnswersForSection($section);
+
+            $results = $this->gradeSection($section);
+
+            $assessment = Assessment::find($this->assessmentId);
+            $assessment->update([
+                'status' => 'completed',
+                'completed_at' => now(),
+                'time_remaining_seconds' => max(0, $this->timeRemaining),
+            ]);
+
+            AssessmentResult::create([
+                'assessment_id' => $this->assessmentId,
+                'total_score' => $results['score'],
+                'total_marks' => $results['max_score'],
+                'percentage' => $results['percentage'],
+                'band_score' => $results['classification'],
+                'completed_at' => now(),
+            ]);
+
+            $this->sectionsCompleted[$section] = [
+                'assessment_id' => $this->assessmentId,
+                'score' => $results['score'],
+                'max_score' => $results['max_score'],
+                'percentage' => $results['percentage'],
+                'completed_at' => now()->toIso8601String(),
+            ];
+
+            $profile = Auth::user()->studentProfile;
+            $profile->update([
+                'placement_sections_completed' => $this->sectionsCompleted,
+            ]);
+
+            $this->lastResults = [
+                'section' => $section,
+                'section_name' => self::SECTIONS[$section]['name'],
+                'score' => $results['score'],
+                'max_score' => $results['max_score'],
+                'percentage' => $results['percentage'],
+                'classification' => $results['classification'],
+                'estimated_grade' => $results['estimated_grade'],
+            ];
+
+            if (count(array_intersect(array_keys($this->sectionsCompleted), array_keys(self::SECTIONS))) === count(self::SECTIONS)) {
+                $this->finalizePlacement($profile);
             }
+        });
 
-            // Save essay
+        $this->view = 'results';
+        $this->answers = [];
+        $this->questions = null;
+        $this->passage = null;
+        $this->writingPrompt = null;
+        $this->essayContent = '';
+
+        Flux::toast(variant: 'success', text: __('Section completed!'));
+    }
+
+    private function saveAnswersForSection(string $section): void
+    {
+        $questions = $this->questions ?? [];
+
+        if ($section === 'writing') {
             if ($this->essayContent && $this->writingPrompt) {
                 WritingSubmission::create([
                     'student_profile_id' => Auth::user()->studentProfile->id,
@@ -263,120 +459,94 @@ class PlacementTest extends Component
                 ]);
             }
 
-            // Compute scores
-            $results = $this->gradeTest();
+            return;
+        }
 
-            // Update assessment
-            $assessment = Assessment::find($this->assessmentId);
-            $assessment->update([
-                'status' => 'completed',
-                'completed_at' => now(),
-                'time_remaining_seconds' => max(0, $this->timeRemaining),
-            ]);
+        foreach ($questions as $q) {
+            $answer = $this->answers[$q['id']] ?? null;
 
-            // Save result
-            AssessmentResult::create([
-                'assessment_id' => $this->assessmentId,
-                'total_score' => $results['total_score'],
-                'total_marks' => 75,
-                'percentage' => $results['percentage'],
-                'band_score' => $results['classification'],
-                'completed_at' => now(),
-            ]);
+            $aq = AssessmentQuestion::firstOrCreate(
+                ['assessment_id' => $this->assessmentId, 'question_id' => $q['id']],
+                ['sort_order' => 0]
+            );
 
-            // Update student profile
-            Auth::user()->studentProfile->update([
-                'placement_completed' => true,
-                'current_estimated_grade' => $results['estimated_grade'],
-            ]);
+            $score = null;
+            $maxScore = $q['marks'];
+            $isCorrect = null;
+            $selectedOptionId = null;
 
-            // Seed skill scores from placement test
-            $this->seedInitialSkillScores($results);
-        });
-
-        Flux::toast(variant: 'success', text: __('Placement test completed! Your learning plan is ready.'));
-
-        $this->redirect(route('profile'), navigate: true);
-    }
-
-    private function recordAnswer(array $question, $answer): void
-    {
-        $aq = AssessmentQuestion::firstOrCreate(
-            ['assessment_id' => $this->assessmentId, 'question_id' => $question['id']],
-            ['sort_order' => 0]
-        );
-
-        $score = null;
-        $maxScore = $question['marks'];
-        $isCorrect = null;
-        $selectedOptionId = null;
-
-        if ($question['type'] === 'mcq') {
-            $option = QuestionOption::find($answer);
-            if ($option) {
-                $selectedOptionId = $option->id;
-                $isCorrect = $option->is_correct;
-                $score = $isCorrect ? $question['marks'] : 0;
+            if ($q['type'] === 'mcq') {
+                $option = QuestionOption::find($answer);
+                if ($option) {
+                    $selectedOptionId = $option->id;
+                    $isCorrect = $option->is_correct;
+                    $score = $isCorrect ? $q['marks'] : 0;
+                }
+            } elseif ($q['type'] === 'fill_blank') {
+                $correctOptions = QuestionOption::where('question_id', $q['id'])
+                    ->where('is_correct', true)->pluck('id')->toArray();
+                $isCorrect = in_array((int) $answer, $correctOptions);
+                $score = $isCorrect ? $q['marks'] : 0;
+            } else {
+                $isCorrect = ! empty(trim($answer ?? ''));
+                $score = $isCorrect ? $q['marks'] : 0;
             }
-        } elseif ($question['type'] === 'fill_blank') {
-            $correctOptions = QuestionOption::where('question_id', $question['id'])
-                ->where('is_correct', true)->pluck('id')->toArray();
-            $isCorrect = in_array((int) $answer, $correctOptions);
-            $score = $isCorrect ? $question['marks'] : 0;
-        } else {
-            $isCorrect = !empty(trim($answer ?? ''));
-            $score = $isCorrect ? $question['marks'] : 0;
-        }
 
-        QuestionResponse::create([
-            'assessment_question_id' => $aq->id,
-            'student_answer' => is_array($answer) ? json_encode($answer) : (string) ($answer ?? ''),
-            'selected_option_id' => $selectedOptionId,
-            'score' => $score,
-            'max_score' => $maxScore,
-            'is_correct' => $isCorrect,
-            'answered_at' => now(),
-        ]);
+            QuestionResponse::create([
+                'assessment_question_id' => $aq->id,
+                'student_answer' => is_array($answer) ? json_encode($answer) : (string) ($answer ?? ''),
+                'selected_option_id' => $selectedOptionId,
+                'score' => $score,
+                'max_score' => $maxScore,
+                'is_correct' => $isCorrect,
+                'answered_at' => now(),
+            ]);
+        }
     }
 
-    private function gradeTest(): array
+    private function gradeSection(string $section): array
     {
-        $grammarScore = 0;
-        $vocabScore = 0;
-        $readingScore = 0;
-        $writingScore = 0;
+        if ($section === 'writing') {
+            return $this->gradeWriting();
+        }
 
-        foreach ($this->grammarQuestions ?? [] as $q) {
+        $score = 0;
+        $maxScore = 0;
+
+        foreach ($this->questions ?? [] as $q) {
+            $maxScore += $q['marks'];
             $answer = $this->answers[$q['id']] ?? null;
-            $grammarScore += $this->scoreAnswer($q, $answer);
+            $score += $this->scoreAnswer($q, $answer);
         }
 
-        foreach ($this->vocabQuestions ?? [] as $q) {
-            $answer = $this->answers[$q['id']] ?? null;
-            $vocabScore += $this->scoreAnswer($q, $answer);
-        }
-
-        foreach ($this->readingQuestions ?? [] as $q) {
-            $answer = $this->answers[$q['id']] ?? null;
-            $readingScore += $this->scoreAnswer($q, $answer);
-        }
-
-        // Writing: placeholder score based on word count until AI evaluation runs
-        if ($this->essayContent) {
-            $wordCount = str_word_count($this->essayContent);
-            $writingScore = $wordCount >= 50 ? 12 : max(0, $wordCount / 4);
-        }
-
-        $totalScore = $grammarScore + $vocabScore + $readingScore + $writingScore;
-        $percentage = round(($totalScore / 75) * 100, 1);
+        $percentage = $maxScore > 0 ? round(($score / $maxScore) * 100, 1) : 0;
         $classification = $this->classifyScore($percentage);
 
         return [
-            'grammar_score' => $grammarScore,
-            'vocab_score' => $vocabScore,
-            'reading_score' => $readingScore,
-            'writing_score' => $writingScore,
-            'total_score' => $totalScore,
+            'score' => $score,
+            'max_score' => $maxScore,
+            'percentage' => $percentage,
+            'classification' => $classification['band'],
+            'estimated_grade' => $classification['grade'],
+        ];
+    }
+
+    private function gradeWriting(): array
+    {
+        $maxScore = 25;
+        $score = 0;
+
+        if ($this->essayContent) {
+            $wordCount = str_word_count($this->essayContent);
+            $score = $wordCount >= 50 ? 12 : max(0, (int) ($wordCount / 4));
+        }
+
+        $percentage = round(($score / $maxScore) * 100, 1);
+        $classification = $this->classifyScore($percentage);
+
+        return [
+            'score' => $score,
+            'max_score' => $maxScore,
             'percentage' => $percentage,
             'classification' => $classification['band'],
             'estimated_grade' => $classification['grade'],
@@ -385,20 +555,24 @@ class PlacementTest extends Component
 
     private function scoreAnswer(array $question, $answer): float
     {
-        if ($answer === null) return 0;
+        if ($answer === null) {
+            return 0;
+        }
 
         if ($question['type'] === 'mcq') {
             $option = QuestionOption::find($answer);
+
             return $option && $option->is_correct ? $question['marks'] : 0;
         }
 
         if ($question['type'] === 'fill_blank') {
             $correctOptions = QuestionOption::where('question_id', $question['id'])
                 ->where('is_correct', true)->pluck('id')->toArray();
+
             return in_array((int) $answer, $correctOptions) ? $question['marks'] : 0;
         }
 
-        return !empty(trim($answer ?? '')) ? $question['marks'] : 0;
+        return ! empty(trim($answer ?? '')) ? $question['marks'] : 0;
     }
 
     private function classifyScore(float $percentage): array
@@ -412,37 +586,46 @@ class PlacementTest extends Component
         };
     }
 
-    private function calculatePreScore(): float
+    private function finalizePlacement($profile): void
     {
-        $score = 0;
-        foreach ($this->grammarQuestions ?? [] as $q) {
-            $answer = $this->answers[$q['id']] ?? null;
-            $score += $this->scoreAnswer($q, $answer);
+        $totalScore = 0;
+        foreach ($this->sectionsCompleted as $data) {
+            $totalScore += $data['score'] ?? 0;
         }
-        foreach ($this->vocabQuestions ?? [] as $q) {
-            $answer = $this->answers[$q['id']] ?? null;
-            $score += $this->scoreAnswer($q, $answer);
-        }
-        return $score;
+
+        $totalMarks = array_sum(array_column(self::SECTIONS, 'max_score'));
+        $percentage = round(($totalScore / $totalMarks) * 100, 1);
+        $classification = $this->classifyScore($percentage);
+
+        $profile->update([
+            'placement_completed' => true,
+            'current_estimated_grade' => $classification['grade'],
+        ]);
+
+        $this->seedInitialSkillScores();
     }
 
-    private function seedInitialSkillScores(array $results): void
+    private function seedInitialSkillScores(): void
     {
         $profileId = Auth::user()->studentProfile->id;
-        $grammarRatio = $results['grammar_score'] / 15;
-        $vocabRatio = $results['vocab_score'] / 15;
-        $readingRatio = $results['reading_score'] / 19;
+
+        $grammarRatio = ($this->sectionsCompleted['grammar']['score'] ?? 0) / 15;
+        $vocabRatio = ($this->sectionsCompleted['vocabulary']['score'] ?? 0) / 15;
+        $readingRatio = ($this->sectionsCompleted['reading']['score'] ?? 0) / 19;
+        $writingRatio = ($this->sectionsCompleted['writing']['score'] ?? 0) / 25;
 
         $domainRatios = [
-            'grammar' => $grammarRatio,
-            'vocabulary' => $vocabRatio,
-            'reading' => $readingRatio,
-            'writing' => $results['writing_score'] / 25,
+            'grammar' => max(0, min(1, $grammarRatio)),
+            'vocabulary' => max(0, min(1, $vocabRatio)),
+            'reading' => max(0, min(1, $readingRatio)),
+            'writing' => max(0, min(1, $writingRatio)),
         ];
 
         foreach ($domainRatios as $domainSlug => $ratio) {
-            $domain = \App\Models\SkillDomain::where('slug', $domainSlug)->first();
-            if (!$domain) continue;
+            $domain = SkillDomain::where('slug', $domainSlug)->first();
+            if (! $domain) {
+                continue;
+            }
 
             $subSkills = $domain->subSkills()->whereNull('parent_id')->get();
             foreach ($subSkills as $ss) {
@@ -459,26 +642,50 @@ class PlacementTest extends Component
         }
     }
 
-    public function getSectionProgress(int $step): int
+    public function backToOverview(): void
     {
-        $questions = match ($step) {
-            1 => $this->grammarQuestions ?? [],
-            2 => $this->vocabQuestions ?? [],
-            3 => $this->readingQuestions ?? [],
-            4 => [['id' => 'essay']],
-            default => [],
-        };
+        $this->view = 'overview';
+        $this->answers = [];
+        $this->questions = null;
+        $this->passage = null;
+        $this->writingPrompt = null;
+        $this->essayContent = '';
+        $this->assessmentId = null;
+        $this->timeRemaining = 0;
+        $this->sectionTimeLimit = 0;
+        $this->lastResults = [];
+    }
 
-        if ($step === 4) {
+    public function getSectionProgressPercent(): int
+    {
+        $questions = $this->questions ?? [];
+
+        if ($this->view === 'writing') {
             return $this->essayContent ? 100 : 0;
+        }
+
+        if (empty($questions)) {
+            return 0;
         }
 
         $answered = 0;
         foreach ($questions as $q) {
-            if (!empty($this->answers[$q['id']] ?? null)) $answered++;
+            if (! empty($this->answers[$q['id']] ?? null)) {
+                $answered++;
+            }
         }
 
-        return count($questions) > 0 ? round(($answered / count($questions)) * 100) : 0;
+        return round(($answered / count($questions)) * 100);
+    }
+
+    public function getCompletedCount(): int
+    {
+        return count($this->sectionsCompleted);
+    }
+
+    public function getTotalSections(): int
+    {
+        return count(self::SECTIONS);
     }
 
     public function render()

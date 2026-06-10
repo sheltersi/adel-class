@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
     'target_grade',
     'weekly_study_hours',
     'placement_completed',
+    'placement_sections_completed',
     'current_estimated_grade',
 ])]
 class StudentProfile extends Model
@@ -32,6 +33,7 @@ class StudentProfile extends Model
     {
         return [
             'placement_completed' => 'boolean',
+            'placement_sections_completed' => 'array',
         ];
     }
 
