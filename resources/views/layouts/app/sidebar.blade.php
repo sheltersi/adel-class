@@ -17,16 +17,19 @@
                     </flux:sidebar.item>
 
                     @if (auth()->user()?->studentProfile?->placement_completed)
-                        <flux:sidebar.item icon="academic-cap" :href="route('dashboard')" wire:navigate>
+                        <flux:sidebar.item icon="user" :href="route('profile')" :current="request()->routeIs('profile')" wire:navigate>
+                            {{ __('My Profile') }}
+                        </flux:sidebar.item>
+                        <flux:sidebar.item icon="academic-cap" :href="route('profile')" wire:navigate>
                             {{ __('My Plan') }}
                         </flux:sidebar.item>
-                        <flux:sidebar.item icon="pencil" :href="route('dashboard')" wire:navigate>
+                        <flux:sidebar.item icon="pencil" :href="route('profile')" wire:navigate>
                             {{ __('Exercises') }}
                         </flux:sidebar.item>
-                        <flux:sidebar.item icon="document-text" :href="route('dashboard')" wire:navigate>
+                        <flux:sidebar.item icon="document-text" :href="route('profile')" wire:navigate>
                             {{ __('Writing') }}
                         </flux:sidebar.item>
-                        <flux:sidebar.item icon="chart-bar" :href="route('dashboard')" wire:navigate>
+                        <flux:sidebar.item icon="chart-bar" :href="route('profile')" wire:navigate>
                             {{ __('Progress') }}
                         </flux:sidebar.item>
                     @else

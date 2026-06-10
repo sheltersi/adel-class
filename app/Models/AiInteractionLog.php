@@ -32,6 +32,8 @@ class AiInteractionLog extends Model
     /** @use HasFactory<AiInteractionLogFactory> */
     use HasFactory;
 
+    protected $table = 'ai_interaction_log';
+
     /**
      * Get the attributes that should be cast.
      */

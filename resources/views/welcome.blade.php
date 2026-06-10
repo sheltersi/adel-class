@@ -95,6 +95,7 @@
             .delay-100 { animation-delay: 0.1s; }
             .delay-200 { animation-delay: 0.2s; }
             .delay-300 { animation-delay: 0.3s; }
+            .delay-350 { animation-delay: 0.35s; }
             .delay-400 { animation-delay: 0.4s; }
             .delay-500 { animation-delay: 0.5s; }
             .delay-600 { animation-delay: 0.6s; }
@@ -323,10 +324,10 @@
     <body class="bg-white dark:bg-[#0B0F19] text-slate-600 dark:text-slate-300 antialiased overflow-x-hidden">
 
         {{-- === NAVIGATION === --}}
-        <nav class="fixed top-0 left-0 right-0 z-50 glass border-b border-slate-200/50 dark:border-slate-800/50">
+        <nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 glass border-b border-slate-200/50 dark:border-slate-800/50 transition-all duration-300">
             <div class="max-w-7xl mx-auto px-6 lg:px-8">
                 <div class="flex items-center justify-between h-16">
-                    <a href="{{ route('home') }}" class="flex items-center gap-2.5 group">
+                    <a href="{{ route('home') }}" class="flex items-center gap-2.5 group z-50 relative">
                         <div class="flex items-center justify-center size-9 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 shadow-lg shadow-blue-500/20 group-hover:shadow-cyan-500/30 transition-all duration-300">
                             <svg class="size-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
@@ -353,14 +354,14 @@
                             <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-500 rounded-full transition-all group-hover:w-full"></span>
                         </a>
                     </div>
-                    <div class="flex items-center gap-3">
+                    <div class="hidden md:flex items-center gap-3">
                         @if (Route::has('login'))
                             @auth
                                 <a href="{{ route('dashboard') }}" class="inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-600 hover:to-blue-700 transition-all shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40">
                                     Dashboard
                                 </a>
                             @else
-                                <a href="{{ route('login') }}" class="hidden sm:inline-flex items-center justify-center px-4 py-2.5 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+                                <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-4 py-2.5 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
                                     Log in
                                 </a>
                                 @if (Route::has('register'))
@@ -368,6 +369,48 @@
                                         Get Started
                                     </a>
                                 @endif
+                            @endauth
+                        @endif
+                    </div>
+                    {{-- Mobile Menu Button --}}
+                    <button id="mobile-menu-btn" class="md:hidden relative z-50 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" aria-label="Toggle menu" aria-expanded="false">
+                        <svg id="menu-icon-open" class="size-6 text-slate-700 dark:text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
+                        </svg>
+                        <svg id="menu-icon-close" class="size-6 text-slate-700 dark:text-slate-300 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            {{-- Mobile Menu Panel --}}
+            <div id="mobile-menu" class="md:hidden fixed inset-0 top-16 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl opacity-0 invisible transition-all duration-300 ease-in-out">
+                <div class="flex flex-col items-center justify-center h-full gap-8 px-6">
+                    <a href="#features" class="mobile-nav-link text-2xl font-semibold text-slate-900 dark:text-white hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
+                        Features
+                    </a>
+                    <a href="#how-it-works" class="mobile-nav-link text-2xl font-semibold text-slate-900 dark:text-white hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
+                        How It Works
+                    </a>
+                    <a href="#testimonials" class="mobile-nav-link text-2xl font-semibold text-slate-900 dark:text-white hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
+                        Testimonials
+                    </a>
+                    <a href="#pricing" class="mobile-nav-link text-2xl font-semibold text-slate-900 dark:text-white hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
+                        Pricing
+                    </a>
+                    <div class="flex flex-col gap-3 w-full max-w-xs mt-4">
+                        @if (Route::has('login'))
+                            @auth
+                                <a href="{{ route('dashboard') }}" class="inline-flex items-center justify-center px-6 py-3 text-base font-semibold rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-600 hover:to-blue-700 transition-all shadow-lg">
+                                    Dashboard
+                                </a>
+                            @else
+                                <a href="{{ route('register') }}" class="inline-flex items-center justify-center px-6 py-3 text-base font-semibold rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-600 hover:to-blue-700 transition-all shadow-lg">
+                                    Get Started
+                                </a>
+                                <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-xl border-2 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-blue-300 dark:hover:border-blue-700 transition-colors">
+                                    Log in
+                                </a>
                             @endauth
                         @endif
                     </div>
@@ -389,6 +432,46 @@
                 <div class="absolute top-[60%] left-[15%] size-2 bg-teal-400/30 rounded-full float-3"></div>
                 <div class="absolute bottom-[35%] right-[20%] size-3 bg-blue-300/20 rounded-full float-1"></div>
                 <div class="absolute top-[50%] left-[40%] size-2 bg-cyan-300/20 rounded-full float-2"></div>
+
+                {{-- Floating Sparkle Stars --}}
+                <div class="absolute top-[15%] left-[35%] text-amber-400/30 float-1" style="animation-delay: 1s;">
+                    <svg class="size-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </div>
+                <div class="absolute top-[70%] right-[40%] text-blue-400/20 float-3" style="animation-delay: 2s;">
+                    <svg class="size-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </div>
+                <div class="absolute top-[45%] right-[10%] text-cyan-400/25 float-2" style="animation-delay: 3s;">
+                    <svg class="size-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </div>
+                <div class="absolute bottom-[25%] left-[45%] text-emerald-400/20 float-1" style="animation-delay: 1.5s;">
+                    <svg class="size-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </div>
+
+                {{-- Floating Skill Badges --}}
+                <div class="absolute top-[18%] left-[45%] glass rounded-full px-3 py-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300 shadow-sm float-1" style="animation-delay: 0.5s;">
+                    <span class="inline-flex items-center gap-1.5">
+                        <span class="size-1.5 rounded-full bg-blue-500"></span>
+                        Grammar
+                    </span>
+                </div>
+                <div class="absolute top-[55%] left-[8%] glass rounded-full px-3 py-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300 shadow-sm float-2" style="animation-delay: 1.5s;">
+                    <span class="inline-flex items-center gap-1.5">
+                        <span class="size-1.5 rounded-full bg-emerald-500"></span>
+                        IELTS
+                    </span>
+                </div>
+                <div class="absolute top-[35%] right-[8%] glass rounded-full px-3 py-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300 shadow-sm float-3" style="animation-delay: 2.5s;">
+                    <span class="inline-flex items-center gap-1.5">
+                        <span class="size-1.5 rounded-full bg-amber-500"></span>
+                        B2 Level
+                    </span>
+                </div>
+                <div class="absolute bottom-[30%] left-[28%] glass rounded-full px-3 py-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300 shadow-sm float-1" style="animation-delay: 0.8s;">
+                    <span class="inline-flex items-center gap-1.5">
+                        <span class="size-1.5 rounded-full bg-cyan-500"></span>
+                        Reading
+                    </span>
+                </div>
             </div>
 
             <div class="relative max-w-7xl mx-auto px-6 lg:px-8 py-20 lg:py-28">
@@ -440,6 +523,37 @@
                             </a>
                         </div>
 
+                        {{-- Floating Glass Card — Mini Stats --}}
+                        <div class="anim-fade-up delay-350 relative mb-6 hidden sm:block">
+                            <div class="inline-flex items-center gap-4 glass rounded-2xl border border-slate-200/50 dark:border-slate-700/50 p-4 shadow-lg shadow-blue-500/5 float-1" style="animation-delay: 0.5s;">
+                                <div class="flex items-center gap-3">
+                                    <div class="size-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
+                                        <svg class="size-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <div class="text-xs font-medium text-slate-500 dark:text-slate-400">Average Improvement</div>
+                                        <div class="text-lg font-bold text-slate-900 dark:text-white">+2.3 Band Score</div>
+                                        <div class="text-xs text-emerald-500 font-medium">in 90 days</div>
+                                    </div>
+                                </div>
+                                <div class="w-px h-10 bg-slate-200 dark:bg-slate-700"></div>
+                                <div class="flex items-center gap-3">
+                                    <div class="size-12 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                                        <svg class="size-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <div class="text-xs font-medium text-slate-500 dark:text-slate-400">Study Time</div>
+                                        <div class="text-lg font-bold text-slate-900 dark:text-white">45 min/day</div>
+                                        <div class="text-xs text-emerald-500 font-medium">recommended</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         {{-- Social Proof --}}
                         <div class="anim-fade-up delay-400 flex items-center gap-4">
                             <div class="flex -space-x-2">
@@ -449,9 +563,18 @@
                                 <div class="size-8 rounded-full bg-cyan-500 border-2 border-white dark:border-slate-900 flex items-center justify-center text-white text-xs font-bold">LP</div>
                                 <div class="size-8 rounded-full bg-slate-100 dark:bg-slate-800 border-2 border-white dark:border-slate-900 flex items-center justify-center text-slate-500 dark:text-slate-400 text-xs font-bold">+2k</div>
                             </div>
-                            <p class="text-sm text-slate-500 dark:text-slate-400">
-                                <span class="font-semibold text-slate-900 dark:text-white">2,500+</span> students enrolled
-                            </p>
+                            <div class="flex items-center gap-3">
+                                <div class="flex gap-0.5">
+                                    <svg class="size-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="size-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="size-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="size-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="size-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                </div>
+                                <p class="text-sm text-slate-500 dark:text-slate-400">
+                                    <span class="font-semibold text-slate-900 dark:text-white">2,500+</span> students enrolled
+                                </p>
+                            </div>
                         </div>
                     </div>
 
@@ -572,6 +695,9 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
                 </svg>
             </div>
+
+            {{-- Decorative Gradient Line --}}
+            <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-slate-300/50 dark:via-slate-700/50 to-transparent"></div>
         </section>
 
         {{-- === SOCIAL PROOF / TRUST BAR === --}}
@@ -1230,6 +1356,72 @@
                 
                 window.addEventListener('scroll', revealOnScroll);
                 revealOnScroll(); // Trigger on load
+
+                {{-- === MOBILE MENU === --}}
+                const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+                const mobileMenu = document.getElementById('mobile-menu');
+                const menuIconOpen = document.getElementById('menu-icon-open');
+                const menuIconClose = document.getElementById('menu-icon-close');
+                const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+                const mainNav = document.getElementById('main-nav');
+                let isMenuOpen = false;
+
+                function toggleMenu() {
+                    isMenuOpen = !isMenuOpen;
+                    
+                    if (isMenuOpen) {
+                        mobileMenu.classList.remove('opacity-0', 'invisible');
+                        mobileMenu.classList.add('opacity-100', 'visible');
+                        menuIconOpen.classList.add('hidden');
+                        menuIconClose.classList.remove('hidden');
+                        mobileMenuBtn.setAttribute('aria-expanded', 'true');
+                        document.body.style.overflow = 'hidden';
+                        mainNav.classList.add('border-transparent', 'dark:border-transparent');
+                        mainNav.classList.remove('border-slate-200/50', 'dark:border-slate-800/50');
+                    } else {
+                        mobileMenu.classList.add('opacity-0', 'invisible');
+                        mobileMenu.classList.remove('opacity-100', 'visible');
+                        menuIconOpen.classList.remove('hidden');
+                        menuIconClose.classList.add('hidden');
+                        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                        document.body.style.overflow = '';
+                        mainNav.classList.remove('border-transparent', 'dark:border-transparent');
+                        mainNav.classList.add('border-slate-200/50', 'dark:border-slate-800/50');
+                    }
+                }
+
+                mobileMenuBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    toggleMenu();
+                });
+
+                // Close menu when clicking a link
+                mobileNavLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        if (isMenuOpen) toggleMenu();
+                    });
+                });
+
+                // Close menu when clicking outside
+                mobileMenu.addEventListener('click', function(e) {
+                    if (e.target === mobileMenu) {
+                        toggleMenu();
+                    }
+                });
+
+                // Close on escape key
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && isMenuOpen) {
+                        toggleMenu();
+                    }
+                });
+
+                // Close menu on resize to desktop
+                window.addEventListener('resize', function() {
+                    if (window.innerWidth >= 768 && isMenuOpen) {
+                        toggleMenu();
+                    }
+                });
             });
         </script>
     </body>

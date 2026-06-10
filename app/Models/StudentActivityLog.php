@@ -26,6 +26,8 @@ class StudentActivityLog extends Model
     /** @use HasFactory<StudentActivityLogFactory> */
     use HasFactory;
 
+    protected $table = 'student_activity_log';
+
     /**
      * Get the attributes that should be cast.
      */
